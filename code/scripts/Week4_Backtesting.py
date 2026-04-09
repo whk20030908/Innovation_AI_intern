@@ -122,6 +122,45 @@ plt.grid(True)
 plt.savefig("../../output/figure/Week4_Strategy_vs_Benchmarks.png", dpi=300, bbox_inches="tight")
 plt.show()
 
+# Plot drawdown comparison
+plt.figure(figsize=(12, 6))
+plt.plot(strategy_drawdown_series.index, strategy_drawdown_series.values, label="Strategy")
+plt.plot(spy_drawdown_series.index, spy_drawdown_series.values, label="SPY")
+plt.plot(equal_weight_drawdown_series.index, equal_weight_drawdown_series.values, label="Equal-Weight Sector Portfolio")
+
+plt.title("Drawdown Comparison")
+plt.xlabel("Date")
+plt.ylabel("Drawdown")
+plt.legend()
+plt.grid(True)
+
+plt.savefig("../../output/figure/Week4_Drawdown_Comparison.png", dpi=300, bbox_inches="tight")
+plt.show()
+
+# Build volatility comparison table
+volatility_df = pd.DataFrame({
+    "Portfolio": ["Strategy", "SPY", "Equal-Weight Sector Portfolio"],
+    "Annualized Volatility": [
+        strategy_annual_volatility,
+        spy_annual_volatility,
+        equal_weight_annual_volatility
+    ]
+})
+
+volatility_df.to_csv("../../data/processed/week4_volatility_comparison.csv", index=False)
+
+# Plot volatility comparison
+plt.figure(figsize=(10, 6))
+plt.bar(volatility_df["Portfolio"], volatility_df["Annualized Volatility"])
+
+plt.title("Annualized Volatility Comparison")
+plt.xlabel("Portfolio")
+plt.ylabel("Annualized Volatility")
+plt.grid(True, axis="y")
+
+plt.savefig("../../output/figure/Week4_Volatility_Comparison.png", dpi=300, bbox_inches="tight")
+plt.show()
+
 # Summary
 print("Week 4 backtesting completed.")
 print("Saved files:")
