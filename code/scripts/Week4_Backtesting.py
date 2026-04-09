@@ -107,6 +107,30 @@ summary_df = pd.DataFrame({
 
 summary_df.to_csv("../../data/processed/week4_performance_summary.csv", index=False)
 
+# Cumulative return series
+strategy_cumret_series = (1 + strategy_daily_returns).cumprod() - 1
+spy_cumret_series = (1 + spy_returns).cumprod() - 1
+equal_weight_cumret_series = (1 + equal_weight_returns).cumprod() - 1
+
+# Save cumulative return series
+strategy_cumret_series.to_csv("../../data/processed/week4_strategy_cumulative_returns.csv")
+spy_cumret_series.to_csv("../../data/processed/week4_spy_cumulative_returns.csv")
+equal_weight_cumret_series.to_csv("../../data/processed/week4_equal_weight_cumulative_returns.csv")
+
+# Plot cumulative return comparison
+plt.figure(figsize=(12, 6))
+plt.plot(strategy_cumret_series.index, strategy_cumret_series.values, label="Strategy")
+plt.plot(spy_cumret_series.index, spy_cumret_series.values, label="SPY")
+plt.plot(equal_weight_cumret_series.index, equal_weight_cumret_series.values, label="Equal-Weight Sector Portfolio")
+
+plt.title("Cumulative Return Comparison")
+plt.xlabel("Date")
+plt.ylabel("Cumulative Return")
+plt.legend()
+plt.grid(True)
+
+plt.savefig("../../output/figure/Week4_Cumulative_Return_Comparison.png", dpi=300, bbox_inches="tight")
+plt.show()
 # Plot strategy vs benchmarks
 plt.figure(figsize=(12, 6))
 plt.plot(portfolio_value.index, portfolio_value.values, label="Strategy")
